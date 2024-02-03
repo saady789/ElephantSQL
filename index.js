@@ -12,7 +12,11 @@ async function getClient() {
 async function createTable() {
 
     const query = `
-
+    CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50),
+        email VARCHAR(50)
+    );
 
 
 CREATE TABLE todos (
@@ -28,5 +32,23 @@ CREATE TABLE todos (
     await client.query(query)
 }
 
-createTable();
+async function insertUser() {
+    const client = await getClient();
+    const query = `INSERT INTO users (name, email) VALUES ($1, $2)`;
+    const values = ["Muhammad saad","saady789@gmail.com"];
+    await client.query(query, values);
+    console.log("User inserted");
+}
+
+async function insertTodo() {
+    const client = await getClient();
+    const query = `INSERT INTO todos (title, description, done, user_id) VALUES ($1, $2, $3, $4)`;
+    const values = ["Learn SQL", "Learn SQL for beginners", false, 1];
+    await client.query(query, values);
+    console.log("Todo inserted");
+
+}
+insertTodo();
+// insertUser();
+// createTable();
 
